@@ -19,22 +19,22 @@ import com.quizapp.service.QuizService;
 @RestController
 @RequestMapping("/quiz")
 public class QuizController {
-	
-	@Autowired
-	private QuizService quizService;
 
-	@PostMapping("/create")
-	public ResponseEntity<String> createQuiz(@RequestParam String category, @RequestParam int numQ){
-		return quizService.creatQuiz(category, numQ);
-	}
-	
-	@GetMapping("/get/{id}")
-	public ResponseEntity<List<QuestionWrapper>> getQuizQuestions(@PathVariable Integer id){
-		return quizService.getQuizQuestion(id);
-	}
-	
-	@PostMapping("/submit/{id}")
-	public ResponseEntity<Integer> submitQuiz(@PathVariable Integer id, @RequestBody List<Response> response){
-		return quizService.calculateResult(id, response);
-	}
+    @Autowired
+    private QuizService quizService;
+
+    @PostMapping("/create")
+    public ResponseEntity<String> createQuiz(@RequestParam String category, @RequestParam int numQ) {
+        return quizService.creatQuiz(category, numQ);
+    }
+
+    @GetMapping("/get/{id}")
+    public ResponseEntity<List<QuestionWrapper>> getQuizQuestions(@PathVariable Integer id) {
+        return quizService.getQuizQuestion(id);
+    }
+
+    @PostMapping("/submit/{id}")
+    public ResponseEntity<Integer> submitQuiz(@PathVariable Integer id, @RequestBody List<Response> response) {
+        return quizService.calculateResult(id, response);
+    }
 }

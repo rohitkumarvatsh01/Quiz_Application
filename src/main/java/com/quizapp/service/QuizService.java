@@ -32,17 +32,31 @@ public class QuizService {
 		quizRepository.save(quiz);
 		return new ResponseEntity<>("Success", HttpStatus.CREATED);
 	}
-
+	
 	public ResponseEntity<List<QuestionWrapper>> getQuizQuestion(Integer id) {
-		Optional<Quiz> quiz = quizRepository.findById(id);
-		List<Question> questionFromDB = quiz.get().getQuestions();
-		List<QuestionWrapper> questionsForUser = new ArrayList<>();
-		for (Question q : questionFromDB) {
-			QuestionWrapper qw = new QuestionWrapper(q.getId(), q.getQuestionTitle(), q.getOption1(), q.getOption2(), q.getOption3(), q.getOption4());
-			questionsForUser.add(qw);
-		}
-		return new ResponseEntity<>(questionsForUser, HttpStatus.OK);
+	    Optional<Quiz> quiz = quizRepository.findById(id);
+	    if (!quiz.isPresent()) {
+	        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	    }
+	    List<Question> questionFromDB = quiz.get().getQuestions();
+	    List<QuestionWrapper> questionsForUser = new ArrayList<>();
+	    for (Question q : questionFromDB) {
+	        QuestionWrapper qw = new QuestionWrapper(q.getId(), q.getQuestionTitle(), q.getOption1(), q.getOption2(), q.getOption3(), q.getOption4());
+	        questionsForUser.add(qw);
+	    }
+	    return new ResponseEntity<>(questionsForUser, HttpStatus.OK);
 	}
+
+//	public ResponseEntity<List<QuestionWrapper>> getQuizQuestion(Integer id) {
+//		Optional<Quiz> quiz = quizRepository.findById(id);
+//		List<Question> questionFromDB = quiz.get().getQuestions();
+//		List<QuestionWrapper> questionsForUser = new ArrayList<>();
+//		for (Question q : questionFromDB) {
+//			QuestionWrapper qw = new QuestionWrapper(q.getId(), q.getQuestionTitle(), q.getOption1(), q.getOption2(), q.getOption3(), q.getOption4());
+//			questionsForUser.add(qw);
+//		}
+//		return new ResponseEntity<>(questionsForUser, HttpStatus.OK);
+//	}
 
 	public ResponseEntity<Integer> calculateResult(Integer id, List<Response> response) {
 		Quiz quiz = quizRepository.findById(id).get();
